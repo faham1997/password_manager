@@ -20,7 +20,7 @@ const createExample = async (req, res) => {
   }
 };
 
-// Get all Examples
+// Get all examples
 const getExamples = async (req, res) => {
   try {
     const examples = await Example.find({});
@@ -30,4 +30,20 @@ const getExamples = async (req, res) => {
   }
 };
 
-module.exports = { createExample, getExamples };
+//Delete an example
+const deleteExample = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const exampleToDelete = await Example.findByIdAndRemove(id);
+    if (!exampleToDelete)
+      return res.json({ status: "error", error: "example not valid" });
+  } catch (error) {
+    return res.json({ status: "error", error: "Couldn't remove example" });
+  }
+  return res.json({ status: "ok", error: "Example deleted successfully!" });
+};
+
+//Update an example
+
+module.exports = { createExample, getExamples, deleteExample };
