@@ -45,5 +45,17 @@ const deleteExample = async (req, res) => {
 };
 
 //Update an example
+const updateExample = async (req, res) => {
+  const id = req.params.id;
+  if (!id) return res.json({ status: "error", error: "example not valid" });
+  try {
+    Example.findByIdAndUpdate(id, {
+      name: req.body.name,
+      age: req.body.age,
+    });
+  } catch (error) {
+    return res.json({ status: "error", error: "Couldn't update example" });
+  }
+};
 
-module.exports = { createExample, getExamples, deleteExample };
+module.exports = { createExample, getExamples, deleteExample, updateExample };
