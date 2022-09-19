@@ -46,16 +46,21 @@ const deleteExample = async (req, res) => {
 
 //Update an example
 const updateExample = async (req, res) => {
-  const id = req.params.id;
-  if (!id) return res.json({ status: "error", error: "example not valid" });
-  try {
-    Example.findByIdAndUpdate(id, {
-      name: req.body.name,
-      age: req.body.age,
-    });
-  } catch (error) {
-    return res.json({ status: "error", error: "Couldn't update example" });
-  }
+  id = req.params.id;
+  Example.findByIdAndUpdate(
+    { _id: id },
+    { name: req.body.name, age: req.body.age },
+    (error) => {
+      if (error) {
+        return res.json({ status: "error", error: "example not valid" });
+      } else {
+        return res.json({
+          status: "ok",
+          error: "Example Updated successfully!",
+        });
+      }
+    }
+  );
 };
 
 module.exports = { createExample, getExamples, deleteExample, updateExample };
