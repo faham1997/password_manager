@@ -21,5 +21,13 @@ const createExample = async (req, res) => {
 };
 
 // Get all Examples
+const getExamples = async (req, res) => {
+  try {
+    const examples = await Example.find({});
+    return res.json({ status: "ok", examples });
+  } catch (error) {
+    return res.json({ status: "error", error: "No users found" });
+  }
+};
 
-module.exports = { createExample };
+module.exports = { createExample, getExamples };
