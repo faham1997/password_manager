@@ -1,7 +1,8 @@
-const Example = require("../models/example.model");
+import { Request, Response } from "express";
+import { IExample, Example } from "../models/example.model";
 
 // Create a new example
-const createExample = async (req, res) => {
+export const createExample = async (req: Request, res: Response) => {
   const { name, age } = req.body;
   if (!name || !age)
     return res.json({
@@ -11,8 +12,8 @@ const createExample = async (req, res) => {
 
   try {
     const newExample = Example.create({
-      name: req.body.name,
-      age: req.body.age,
+      age,
+      name,
     });
     return res.json({ status: "ok", error: "Added user successfully" });
   } catch (error) {
@@ -21,7 +22,7 @@ const createExample = async (req, res) => {
 };
 
 // Get all examples
-const getExamples = async (req, res) => {
+export const getExamples = async (req: Request, res: Response) => {
   try {
     const examples = await Example.find({});
     return res.json({ status: "ok", examples });
@@ -31,7 +32,7 @@ const getExamples = async (req, res) => {
 };
 
 //Delete an example
-const deleteExample = async (req, res) => {
+export const deleteExample = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   try {
@@ -45,8 +46,8 @@ const deleteExample = async (req, res) => {
 };
 
 //Update an example
-const updateExample = async (req, res) => {
-  id = req.params.id;
+export const updateExample = async (req: Request, res: Response) => {
+  const id = req.params.id;
   Example.findByIdAndUpdate(
     { _id: id },
     { name: req.body.name, age: req.body.age },
@@ -62,5 +63,3 @@ const updateExample = async (req, res) => {
     }
   );
 };
-
-module.exports = { createExample, getExamples, deleteExample, updateExample };
