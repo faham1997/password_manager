@@ -7,15 +7,15 @@ import { Request, Response } from "express";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-import exampleRoute from "./routes/example.routes";
+import passwordRoute from "./routes/password.routes";
 
-import {DatabaseConnection} from './config/db'
+import { DatabaseConnection } from "./config/db";
 DatabaseConnection();
 
 app.use(express.json());
 
 //Use Routes
-app.use("/api/v1/example", exampleRoute);
+app.use("/api/v1/password", passwordRoute);
 
 app.get("/", (req: Request, res: Response) => {
   res.json("Server is running successfully!");
