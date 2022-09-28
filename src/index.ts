@@ -9,8 +9,8 @@ const PORT = process.env.PORT || 3000;
 
 import exampleRoute from "./routes/example.routes";
 
-const db = require("./config/db");
-db();
+import {DatabaseConnection} from './config/db'
+DatabaseConnection();
 
 app.use(express.json());
 
