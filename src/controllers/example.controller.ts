@@ -5,7 +5,7 @@ import { IExample, Example } from "../models/example.model";
 export const createExample = async (req: Request, res: Response) => {
   const { name, age } = req.body;
   if (!name || !age)
-    return res.json({
+    return res.status(400).json({
       status: "error",
       error: "Please provide both name and age",
     });
@@ -15,9 +15,9 @@ export const createExample = async (req: Request, res: Response) => {
       age,
       name,
     });
-    return res.json({ status: "ok", error: "Added user successfully" });
+    return res.status(200).json({ status: "ok", error: "Added user successfully" });
   } catch (error) {
-    return res.json({ status: "error", error: "Unable to save a new user" });
+    return res.status(400).json({ status: "error", error: "Unable to save a new user" });
   }
 };
 
@@ -25,9 +25,9 @@ export const createExample = async (req: Request, res: Response) => {
 export const getExamples = async (req: Request, res: Response) => {
   try {
     const examples = await Example.find({});
-    return res.json({ status: "ok", examples });
+    return res.status(200).json({ status: "ok", examples });
   } catch (error) {
-    return res.json({ status: "error", error: "No users found" });
+    return res.status(400).json({ status: "error", error: "No users found" });
   }
 };
 
@@ -38,11 +38,12 @@ export const deleteExample = async (req: Request, res: Response) => {
   try {
     const exampleToDelete = await Example.findByIdAndRemove(id);
     if (!exampleToDelete)
-      return res.json({ status: "error", error: "example not valid" });
+      return res.status(400).json({ status: "error", error: "example not valid" });
   } catch (error) {
-    return res.json({ status: "error", error: "Couldn't remove example" });
+    return res.status(400).json({ status: "error", error: "Couldn't remove example" });
   }
-  return res.json({ status: "ok", error: "Example deleted successfully!" });
+    const exampleToDelete = await Example.findByIdAndRemove(id);
+  return res.status(200).json({ status: "ok", error: "Example deleted successfully!" });
 };
 
 //Update an example
@@ -53,9 +54,9 @@ export const updateExample = async (req: Request, res: Response) => {
     { name: req.body.name, age: req.body.age },
     (error) => {
       if (error) {
-        return res.json({ status: "error", error: "example not valid" });
+        return res.status(400).json({ status: "error", error: "example not valid" });
       } else {
-        return res.json({
+        return res.status(200).json({
           status: "ok",
           error: "Example Updated successfully!",
         });
